@@ -1,0 +1,31 @@
+.Tile {
+    position: relative;
+    border: 1px solid #504d49;
+    width: 50px;
+    height: 50px;
+    float: left;
+    color: #100d09;
+    font-weight: bold;
+    line-height: 30px;
+    font-size: 20px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.lid {
+    background-image:
+    radial-gradient(
+        circle at top left,
+        #a49e96,
+        #605d59
+    );
+}
+
+.lid:hover {
+    background-image:
+    radial-gradient(
+        circle at bottom right,
+        #a49e96,
+        #605d59
+    );
+}
