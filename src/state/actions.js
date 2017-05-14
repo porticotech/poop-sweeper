@@ -15,3 +15,9 @@ export const revealTile = (tile) => {
         tile,
     }
 }
+
+export const undo = () => {
+    return {
+        type: types.UNDO,
+    }
+}

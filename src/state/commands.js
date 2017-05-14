@@ -22,11 +22,3 @@ export const revealAdjacentSafeTiles = (state, tile) => {
   }
   return state;
 }
-
-export const initTiles = (cols, rows, mines) => {
-    const tiles = [];
-    for(let i = 0; i < (cols * rows); i++) {
-        tiles.push(fromJS({isMine: i < mines, isRevealed: false}));
-    }
-    return List(shuffle(tiles).map((tile, idx) => tile.set('id', idx)));
-}
