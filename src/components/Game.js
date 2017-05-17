@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Board from './Board';
 import * as actions from '../state/actions';
-import * as queries from '../state/queries';
+import UndoButton from './UndoButton';
 
 import './Game.css';
 
@@ -19,14 +19,14 @@ const Game = (props) => (
 )
 
 const mapStateToProps = (state) => ({
-    tiles: queries.tiles(state),
-    cols: queries.cols(state),
-    dead: queries.dead(state),
-    safe: queries.safe(state),
+    tiles: state.get('tiles'),
+    cols: state.get('cols'),
+    dead: state.get('isDead'),
+    safe: state.get('isSafe'),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    startGame: (obj) => dispatch(actions.createGame(9, 9, 10)),
+    startGame: (obj) => dispatch(actions.createGame(9, 9, 8)),
     revealTile: (evt) => dispatch(actions.revealTile(evt)),
 })
 

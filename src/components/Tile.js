@@ -24,14 +24,17 @@ export default class Tile extends React.Component {
      */
     render() {
         console.log('rendering tile ', this.props.tile.get('id'));
-        sleepFor(10);    // Intentionally make the render of a tile slow
+        sleepFor(5);    // Intentionally make the render of a tile slow
         if (this.props.tile.get('isRevealed')) {
             return (
             <div className='Tile'>
-                {this.props.tile.get('isMine') ? '💩' : this.props.tile.get('threatCount') > 0 ? this.props.tile.get('threatCount') : ''}
+                {this.props.tile.get('isPoop') ? '💩' : this.props.tile.get('threatCount') > 0 ? this.props.tile.get('threatCount') : ''}
             </div>)
         }
-        return (<div className='Tile lid' onClick={() => this.props.revealTile(this.props.tile.get('id'))} />)
+        return (
+            <div className='Tile lid' onClick={() => this.props.revealTile(this.props.tile.get('id'))}>
+            </div>
+        )
     }
 }
 >>>>>>> 3ab2e26... Created Poop Sweeper
