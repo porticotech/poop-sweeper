@@ -30,7 +30,7 @@ const initialState = fromJS({
 const gameReducer = (state = initialState, action) => {
     switch (action.type) {
 
-        /** This action will create a new game with the number of 
+        /* This action will create a new game with the number of 
          * rows and columns that the player has specified
          */
         case types.CREATE_GAME:
@@ -40,7 +40,7 @@ const gameReducer = (state = initialState, action) => {
                 tiles: commands.initTiles(action.cols, action.rows, action.poops)
             })
 
-        /** This action will reveal a tile
+        /* This action will reveal a tile
          */
         case types.REVEAL_TILE:
             const updated = state.setIn(['tiles', action.tile, 'isRevealed'], true);
@@ -48,7 +48,12 @@ const gameReducer = (state = initialState, action) => {
                 commands.revealAllPoops(updated.set('isDead', true)) :
                 commands.attemptWinning(commands.revealAdjacentSafeTiles(updated, action.tile));
 
-        /** By default just return the state
+        /* This action will undo the last action 
+         */
+        case types.UNDO:    // hasn't been written yet
+            return state;
+
+        /* By default just return the state
          */
         default:
             return state

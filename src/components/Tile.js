@@ -37,4 +37,3 @@ export default class Tile extends React.Component {
         )
     }
 }
->>>>>>> 3ab2e26... Created Poop Sweeper

@@ -23,6 +23,7 @@ export const createGame = (rows, cols, poops) => {
  * by the reducer
  * @func
  * @param {Number} tile The tile to be revealed
+ * @return an action object
  */
 export const revealTile = (tile) => {
     return {
@@ -30,3 +31,11 @@ export const revealTile = (tile) => {
         tile,
     }
 }
+
+/**
+ * Undo action creator. Creates an action which is picked up
+ * by the reducer
+ * @func
+ * @return an action object
+ */
+export const undo = () => {}

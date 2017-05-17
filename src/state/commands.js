@@ -5,9 +5,9 @@ import { shuffle } from '../utils';
 /** 
  * Initialize an immutable tile. 
  */
-const initializeTile = (isPoop) => Immutable.fromJS({isPoop, isRevealed: false});
+const initializeTile = (isPoop) => {};
 
-const idEachTile = (tiles) => tiles.map((tile, idx) => tile.set('id', idx));
+const idEachTile = (tiles) => {};
 
 /**
  * A function to initialize the tiles. 
@@ -55,7 +55,7 @@ export const initTiles = (cols, rows, poops) => {
  * This function is pure. It doesn't mutate the state of a tile, it will either return
  * the tile as it was or a new version of the 
  */
-export const revealPoop = (tile) => tile.get('isPoop') ? tile.set('isRevealed', true) : tile;
+export const revealPoop = (tile) => {};
 
 /**
  * A function that will reveal all of the poops. All of the poops are revealed
@@ -64,7 +64,7 @@ export const revealPoop = (tile) => tile.get('isPoop') ? tile.set('isRevealed', 
  * @param {Map} state The state of the game
  * @return {Map} a new version of the state with all of the poops revealed
  */
-export const revealAllPoops = (state) => state.updateIn(['tiles'], (tiles) => tiles.map(revealPoop));
+export const revealAllPoops = (state) => {};
 
 /**
  * A function which sets the state of the game to isSafe if the game is won.
