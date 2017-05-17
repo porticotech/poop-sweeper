@@ -16,7 +16,7 @@ const partition = (size, cols) => {
 const Board = (props) => {
     return (
     <div className='Board'>
-        {partition(props.cols, props.tiles).map((tiles) => <Row revealTile={props.revealTile} tiles={tiles} />)}
+        {partition(props.cols, props.tiles).map((tiles, key) => <Row key={key} revealTile={props.revealTile} tiles={tiles} />)}
     </div>
 )};
 

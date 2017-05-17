@@ -1,3 +1,9 @@
+/**
+ * A function to shuffle an array
+ * @func
+ * @param {Array} arr The array to shuffle
+ * @return {Array} The shuffled array
+ */
 export const shuffle = (arr) => {
     var currentIndex = arr.length, temporaryValue, randomIndex;
 

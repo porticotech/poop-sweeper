@@ -6,18 +6,28 @@
  */
 
 /**
- * isMine function
- * 
- * @param {immutable object} state - our application state
- * @param {immutable object} tile - a tile to investigate
+ * isPoop function
+ * @func
+ * @param {immutable object} state our application state
+ * @param {immutable object} tile a tile to investigate
  */
-export const isMine = (state, tile) => state.getIn(['tiles', tile, 'isMine']);
+export const isPoop = (state, tile) => state.getIn(['tiles', tile, 'isPoop']);
 
-export const cols = (state) => state.get('cols');
+/**
+ * Function to determine if a tile is on the west edge of the board
+ * @func
+ * @param {Map} state The game state
+ * @return {Boolean} true if on the west edge, false otherwise
+ */
+const onWestEdge = (state, tile) => tile % state.get('cols') === 0;
 
-const onWestEdge = (state, tile) => tile % cols(state) === 0;
-
-const onEastEdge = (state, tile) => tile % cols(state) === cols(state) - 1;
+/**
+ * Function to determine if a tile is on the east edge of the board
+ * @func
+ * @param {Map} state The game state
+ * @return {Boolean} true if on the east edge, false otherwise
+ */
+const onEastEdge = (state, tile) => tile % state.get('cols') === state.get('cols') - 1;
 
 const idx = (state, tile) => {
     if (tile < 0) {
@@ -26,41 +36,102 @@ const idx = (state, tile) => {
     return state.getIn(['tiles', tile]) ? tile : null;
 }
 
-const nw = (state, tile) => onWestEdge(state, tile) ? null : idx(state, tile - cols(state) - 1);
+/**
+ * @func
+ * @param {Map} state The game state
+ * @param {Map} tile A tile to evaluate
+ * @return {Number} the index of a tile to the north west
+ */
+const nw = (state, tile) => onWestEdge(state, tile) ? null : idx(state, tile - state.get('cols') - 1);
 
-const n = (state, tile) => idx(state, tile - cols(state));
+/**
+ * @func
+ * @param {Map} state The game state
+ * @param {Map} tile A tile to evaluate
+ * @return {Number} the index of a tile to the north
+ */
+const n = (state, tile) => idx(state, tile - state.get('cols'));
 
-const ne = (state, tile) => onEastEdge(state, tile) ? null : idx(state, tile - cols(state) + 1);
+/**
+ * @func
+ * @param {Map} state The game state
+ * @param {Map} tile A tile to evaluate
+ * @return {Number} the index of a tile to the north east
+ */
+const ne = (state, tile) => onEastEdge(state, tile) ? null : idx(state, tile - state.get('cols') + 1);
 
+/**
+ * @func
+ * @param {Map} state The game state
+ * @param {Map} tile A tile to evaluate
+ * @return {Number} the index of a tile to the east
+ */
 const e = (state, tile) => onEastEdge(state, tile) ? null : idx(state, tile + 1);
 
-const se = (state, tile) => onEastEdge(state, tile) ? null : idx(state, tile + cols(state) + 1);
+/**
+ * @func
+ * @param {Map} state The game state
+ * @param {Map} tile A tile to evaluate
+ * @return {Number} the index of a tile to the south east
+ */
+const se = (state, tile) => onEastEdge(state, tile) ? null : idx(state, tile + state.get('cols') + 1);
 
-const s = (state, tile) => idx(state, tile + cols(state));
+/**
+ * @func
+ * @param {Map} state The game state
+ * @param {Map} tile A tile to evaluate
+ * @return {Number} the index of a tile to the south
+ */
+const s = (state, tile) => idx(state, tile + state.get('cols'));
 
-const sw = (state, tile) => onWestEdge(state, tile) ? null : idx(state, tile + cols(state) - 1);
+/**
+ * @func
+ * @param {Map} state The game state
+ * @param {Map} tile A tile to evaluate
+ * @return {Number} the index of a tile to the south west
+ */
+const sw = (state, tile) => onWestEdge(state, tile) ? null : idx(state, tile + state.get('cols') - 1);
 
+/**
+ * @func
+ * @param {Map} state The game state
+ * @param {Map} tile A tile to evaluate
+ * @return {Number} the index of a tile to the west
+ */
 const w = (state, tile) => onWestEdge(state, tile) ? null : idx(state, tile - 1);
 
 export const directions = [nw, n, ne, e, se, s, sw, w];
 
+/**
+ * A function to return the tiles neigbouring a given tile
+ * @func
+ * @param {Map} state The game state
+ * @param {Map} tile A tile to evaluate
+ * @return {Map[]} An array of the surrounding tiles
+ */
 const neighbours = (state, tile) => {
     return directions.map((direction) => {
         return state.getIn(['tiles', direction(state, tile)])
     })
 };
 
-export const tiles = (state) => state.get('tiles');
-
-export const dead = (state) => state.get('isDead');
-
-export const safe = (state) => {
+/**
+ * A function to determine if the game has been completed
+ * @func
+ * @param {Map} state The state of the game
+ */
+export const completedGame = (state) => {
     const tiles = state.get('tiles');
-    const mines = tiles.filter((tile) => tile.get('isMine'));
-    return mines.filter((tile) => tile.get('isRevealed')).size === 0 && tiles.size - mines.size === tiles.filter((tile) => tile.get('isRevealed')).size;
+    const poops = tiles.filter((tile) => tile.get('isPoop'));
+    return poops.filter((tile) => tile.get('isRevealed')).size === 0 && tiles.size - poops.size === tiles.filter((tile) => tile.get('isRevealed')).size;
 };
 
-export const mineCount = (state, tile) => neighbours(state, tile).filter((nb) => {
-    return nb && nb.get('isMine')
-}).length;
-
+/**
+ * A function to return the number of poops in the neighbours for a tile
+ * @func
+ * @param {Map} state The state of the game
+ * @param {Map} tile The tile to find the poop count for
+ */
+export const neighboursPoopCount = (state, tile) => 
+    neighbours(state, tile)
+        .filter((neigbour) => neigbour && neigbour.get('isPoop')).length;

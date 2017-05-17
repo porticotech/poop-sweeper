@@ -21,6 +21,11 @@ const initialState = fromJS({
  *
  * However instead of it acting on an array it is happening on our state 
  * over time depending on what action we have done
+ * 
+ * @func
+ * @param {Map} state The state of the game
+ * @param {Object} action An action to execute on the state
+ * @return {Map} A new version of the state once the action has been applied
  */
 const gameReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -30,21 +35,23 @@ const gameReducer = (state = initialState, action) => {
          */
         case types.CREATE_GAME:
             return fromJS({
-            cols: action.cols,
-            rows: action.rows,
-            tiles: commands.initTiles(action.cols, action.rows, action.mines)
-        })
+                cols: action.cols,
+                rows: action.rows,
+                tiles: commands.initTiles(action.cols, action.rows, action.poops)
+            })
 
         /** This action will reveal a tile
          */
         case types.REVEAL_TILE:
             const updated = state.setIn(['tiles', action.tile, 'isRevealed'], true);
-            return queries.isMine(updated, action.tile) ?
-                commands.revealMines(updated.set('isDead', true)) :
+            return queries.isPoop(updated, action.tile) ?
+                commands.revealAllPoops(updated.set('isDead', true)) :
                 commands.attemptWinning(commands.revealAdjacentSafeTiles(updated, action.tile));
 
+        /** By default just return the state
+         */
         default:
-            return initialState
+            return state
     }
 }
 
